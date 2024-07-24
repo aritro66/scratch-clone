@@ -1,0 +1,116 @@
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { generateMotionComponents } from "../helper/generateMotionComponents";
+import { motionActions } from "../store/motionSlice";
+import { Draggable, Droppable } from "react-beautiful-dnd";
+
+export default function MidArea() {
+  const data = useSelector((state) => state.data.motionList);
+  const activeSprite = useSelector((state) => state.data.activeSprite);
+  const dispatch = useDispatch();
+
+  const triggerEvent = (spriteElement, eventType) => {
+    if (spriteElement && spriteElement.fireEvent) {
+      spriteElement.fireEvent("on" + eventType);
+    } else if (spriteElement) {
+      let eventObject = document.createEvent("Events");
+      eventObject.initEvent(eventType, true, false);
+      spriteElement.dispatchEvent(eventObject);
+    }
+  };
+
+  const onRun = () => {
+    let finalResult = "$ " + activeSprite + ": ";
+    let completedEvents = 0;
+    data.forEach((x, i) => {
+      const arr = x.split("-");
+      let str = arr[0];
+      let id = arr[1];
+      let spriteElement = document.getElementById(`${str}+${id}`);
+      setTimeout(() => {
+        triggerEvent(spriteElement, "click");
+        if (completedEvents === 0) finalResult = finalResult + str;
+        else finalResult = finalResult + " -> " + str;
+        completedEvents++;
+        if (completedEvents === data.length) {
+          dispatch(motionActions.addInHistory(finalResult));
+        }
+      }, i * 800);
+    });
+  };
+
+  const onEmptyList = () => {
+    dispatch(motionActions.emptyEventList());
+  };
+
+  return (
+    <div className="flex-1 h-full overflow-auto py-2 px-2">
+      <div className="flex items-center justify-between">
+        <div className=" text-black font-bold py-2 px-4">Mid Area</div>
+        <div className="flex space-x-4">
+          <button
+            onClick={onEmptyList}
+            className="bg-red-500 text-white font-bold py-2 px-4 rounded"
+          >
+            Empty list
+          </button>
+          <button
+            onClick={onRun}
+            className="bg-green-500 text-white font-bold py-2 px-4 rounded"
+          >
+            Run
+          </button>
+        </div>
+      </div>
+      <Droppable
+        droppableId="mid"
+        type="COMPONENT"
+        isDropDisabled={false}
+        isCombineEnabled={true}
+      >
+        {(provided) => {
+          return (
+            <ul
+              className={`w-full h-full`}
+              {...provided.droppableProps}
+              ref={provided.innerRef}
+            >
+              {data.length > 0 ? (
+                data.map((x, i) => {
+                  let str = x.split("-")[0];
+                  return (
+                    <Draggable
+                      key={`${x}+${i}`}
+                      draggableId={`${x}+${i}`}
+                      index={i}
+                      type="COMPONENT"
+                    >
+                      {(provided) => (
+                        <li
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                        >
+                          {generateMotionComponents(str, `${str}+${i}`)}
+                          {provided.placeholder}
+                        </li>
+                      )}
+                    </Draggable>
+                  );
+                })
+              ) : (
+                <div className="relative h-80">
+                  <p className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-gray-600 text-4xl opacity-90">
+                    Drag and Drop here
+                  </p>
+                </div>
+              )}
+
+              {provided.placeholder}
+            </ul>
+          );
+        }}
+      </Droppable>
+    </div>
+  );
+}
