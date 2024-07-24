@@ -4,7 +4,7 @@ Frontend Assignment
 
 ## Introduction
 
-Scratch Clone is a project aimed at replicating the fun and interactive motion features with a Sprite sprite. Explore and play with various motion scripts to bring your Sprite to life in this user-friendly visual programming environment.
+Scratch Clone is a project aimed at replicating the fun and interactive motion features with a Sprite. Explore and play with various motion scripts to bring your Sprite to life in this user-friendly visual programming environment.
 
 ## Features
 
@@ -16,7 +16,7 @@ Scratch Clone is a project aimed at replicating the fun and interactive motion f
 - Move Sprite in X direction
 - Move Sprite in Y direction
 - Move Sprite in X and Y direction
-- Rotate Sprite in both directions
+- Rotate Sprite in both clockwise and anticlockwise directions
 - Change Sprite poition and send it anywhere on the screen
 - Replay the motion
 
@@ -51,4 +51,8 @@ Scratch Clone is a project aimed at replicating the fun and interactive motion f
 ## Screenshots
 
 ![Screenshot 1](output1.jpg)
-![Screenshot 2](output2.gif)
+
+https://github.com/user-attachments/assets/5f95f7ef-97a5-43f0-928d-6c81fa68d182
+
+
+
