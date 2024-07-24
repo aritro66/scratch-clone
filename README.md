@@ -56,7 +56,7 @@ https://github.com/user-attachments/assets/5f95f7ef-97a5-43f0-928d-6c81fa68d182
 
 ## Deployed Link
 
-Link: https://66a12657d54a9c583193867d--extraordinary-madeleine-f117e9.netlify.app/
+Link: https://scratch-clone-aritro.netlify.app/
 
 
 
