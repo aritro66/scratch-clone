@@ -54,5 +54,9 @@ Scratch Clone is a project aimed at replicating the fun and interactive motion f
 
 https://github.com/user-attachments/assets/5f95f7ef-97a5-43f0-928d-6c81fa68d182
 
+## Deployed Link
+
+Link: https://scratch-clone-aritro.netlify.app/
+
 
 
