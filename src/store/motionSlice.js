@@ -9,6 +9,7 @@ const motionSlice = createSlice({
     history: {
       sprite0: [],
     },
+    runDisabled: false,
   },
   reducers: {
     addEvent(state, action) {
@@ -21,6 +22,9 @@ const motionSlice = createSlice({
       const { source, destination } = action.payload;
       const [removed] = state.motionList.splice(source.index, 1);
       state.motionList.splice(destination.index, 0, removed);
+      state.motionList = state.motionList.map((val, i) => {
+        return val.split("-")[0] + "-" + i;
+      });
     },
     addInHistory(state, action) {
       if (Object.hasOwn(state.history, state.activeSprite)) {
@@ -49,16 +53,27 @@ const motionSlice = createSlice({
     },
     reset(state) {
       if (state.sprite[0] !== 0) {
-        let spriteElement = document.getElementById("sprite0");
+        const spriteElement = document.getElementById("sprite0");
+        const helloElement = document.getElementById("sprite0hello");
+        const thinkElement = document.getElementById("sprite0think");
+        helloElement.style.display = "none";
+        thinkElement.style.display = "none";
         spriteElement.style.left = "0px";
         spriteElement.style.top = "0px";
         spriteElement.style.transform = `rotate(${0}deg)`;
+        spriteElement.style.visibility = "visible";
       }
       state.sprite = [{ id: "sprite0", angle: 0 }];
       state.activeSprite = "sprite0";
       state.history = {
         sprite0: [],
       };
+    },
+    allowRun(state) {
+      state.runDisabled = false;
+    },
+    unallowRun(state) {
+      state.runDisabled = true;
     },
   },
 });

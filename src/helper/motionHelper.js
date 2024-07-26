@@ -2,10 +2,15 @@ import { motionActions } from "../store/motionSlice";
 
 export const moveToOriginReplay = (activeSprite) => {
   const spriteElement = document.getElementById(activeSprite);
+  const helloElement = document.getElementById(activeSprite + "hello");
+  const thinkElement = document.getElementById(activeSprite + "think");
+  helloElement.style.display = "none";
+  thinkElement.style.display = "none";
   spriteElement.style.position = "relative";
   spriteElement.style.left = 0 + "px";
   spriteElement.style.top = 0 + "px";
   spriteElement.style.transform = `rotate(${0}deg)`;
+  spriteElement.style.visibility = "visible";
 };
 
 export const rotateReplay = (activeSprite, angle) => {
@@ -52,12 +57,8 @@ export const rotate = (
 
 export const motionList = [
   "MOVE_X_DIRECTION_10",
-  "MOVE_X_DIRECTION_20",
   "MOVE_Y_DIRECTION_10",
-  "MOVE_Y_DIRECTION_20",
   "MOVE_XY_DIRECTION_10",
-  "TURN_CLOCKWISE_DIRECTION_15",
   "TURN_CLOCKWISE_DIRECTION_45",
-  "TURN_ANTICLOCKWISE_DIRECTION_15",
   "TURN_ANTICLOCKWISE_DIRECTION_45",
 ];

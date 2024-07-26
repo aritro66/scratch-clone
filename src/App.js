@@ -18,7 +18,10 @@ export default function App() {
       dispatch(motionActions.rearrangeEvent(result));
     } else if (
       result.destination.droppableId === "mid" &&
-      result.source.droppableId === "motion"
+      (result.source.droppableId === "motion" ||
+        result.source.droppableId === "look" ||
+        result.source.droppableId === "event" ||
+        result.source.droppableId === "control")
     ) {
       const currIndex = data.length;
       dispatch(motionActions.addEvent(result.draggableId + "-" + currIndex));

@@ -10,6 +10,8 @@ import {
   moveToYDirection,
   rotateReplay,
 } from "../helper/motionhelper";
+import { changeVisibility, sayHello, think } from "../helper/lookHelper";
+import ThinkSvg from "./looks/ThinkSvg";
 
 export default function PreviewArea() {
   const dispatch = useDispatch();
@@ -43,6 +45,7 @@ export default function PreviewArea() {
   const onReplay = () => {
     if (history[activeSprite] && history[activeSprite].length) {
       setDisableButtons(() => true);
+      dispatch(motionActions.unallowRun());
       moveToOriginReplay(activeSprite);
       let angle = 0;
       let counter = 0;
@@ -83,6 +86,18 @@ export default function PreviewArea() {
                 angle -= 45;
                 rotateReplay(activeSprite, angle);
                 break;
+              case "SHOW":
+                changeVisibility(activeSprite, true);
+                break;
+              case "HIDE":
+                changeVisibility(activeSprite, false);
+                break;
+              case "SAY_HELLO":
+                sayHello(activeSprite);
+                break;
+              case "THINK":
+                think(activeSprite);
+                break;
               default:
                 break;
             }
@@ -90,6 +105,7 @@ export default function PreviewArea() {
               j == eventList.length - 1 &&
               i == history[activeSprite].length - 1
             ) {
+              dispatch(motionActions.allowRun());
               setDisableButtons(() => false);
             }
           }, (j + 1 + counter) * 800);
@@ -164,7 +180,16 @@ export default function PreviewArea() {
             return (
               <div key={x.id} className={"absolute"}>
                 <div id={x.id} key={x.id}>
-                  <CatSprite key={x.id} />
+                  <div className="flex">
+                    <CatSprite key={x.id} />
+                    <span id={x.id + "hello"} className="hidden">
+                      hello...
+                    </span>
+                    <span id={x.id + "think"} className="hidden">
+                      <ThinkSvg />
+                    </span>
+                  </div>
+
                   <span className="flex justify-center w-full">{x.id}</span>
                 </div>
               </div>

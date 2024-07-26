@@ -3,10 +3,14 @@ import { useSelector, useDispatch } from "react-redux";
 import { generateMotionComponents } from "../helper/generateMotionComponents";
 import { motionActions } from "../store/motionSlice";
 import { Draggable, Droppable } from "react-beautiful-dnd";
+import { generateLookComponents } from "../helper/generateLookComponents";
+import { generateEventComponents } from "../helper/generateEventComponent";
+import { generateControlComponents } from "../helper/generateControlComponents";
 
 export default function MidArea() {
   const data = useSelector((state) => state.data.motionList);
   const activeSprite = useSelector((state) => state.data.activeSprite);
+  const runDisabled = useSelector((state) => state.data.runDisabled);
   const dispatch = useDispatch();
 
   const triggerEvent = (spriteElement, eventType) => {
@@ -18,25 +22,34 @@ export default function MidArea() {
       spriteElement.dispatchEvent(eventObject);
     }
   };
-
   const onRun = () => {
     let finalResult = "$ " + activeSprite + ": ";
     let completedEvents = 0;
-    data.forEach((x, i) => {
-      const arr = x.split("-");
-      let str = arr[0];
-      let id = arr[1];
-      let spriteElement = document.getElementById(`${str}+${id}`);
-      setTimeout(() => {
-        triggerEvent(spriteElement, "click");
+    if (data.length && data[0].startsWith("RUN")) {
+      for (let i = 0; i < data.length; i++) {
+        const x = data[i];
+        const arr = x.split("-");
+        let str = arr[0];
         if (completedEvents === 0) finalResult = finalResult + str;
         else finalResult = finalResult + " -> " + str;
         completedEvents++;
+        if (str === "STOP") {
+          dispatch(motionActions.addInHistory(finalResult));
+          break;
+        }
         if (completedEvents === data.length) {
           dispatch(motionActions.addInHistory(finalResult));
         }
-      }, i * 800);
-    });
+
+        let id = arr[1];
+        let spriteElement = document.getElementById(`${str}+${id}`);
+        setTimeout(() => {
+          triggerEvent(spriteElement, "click");
+        }, i * 800);
+      }
+    } else {
+      alert("Add run event in the beginning!!!");
+    }
   };
 
   const onEmptyList = () => {
@@ -55,8 +68,11 @@ export default function MidArea() {
             Empty list
           </button>
           <button
+            disabled={runDisabled}
             onClick={onRun}
-            className="bg-green-500 text-white font-bold py-2 px-4 rounded"
+            className={`${
+              runDisabled ? "bg-green-400" : "bg-green-500"
+            } text-white font-bold py-2 px-4 rounded`}
           >
             Run
           </button>
@@ -92,6 +108,9 @@ export default function MidArea() {
                           {...provided.dragHandleProps}
                         >
                           {generateMotionComponents(str, `${str}+${i}`)}
+                          {generateLookComponents(str, `${str}+${i}`)}
+                          {generateEventComponents(str, `${str}+${i}`)}
+                          {generateControlComponents(str, `${str}+${i}`)}
                           {provided.placeholder}
                         </li>
                       )}
