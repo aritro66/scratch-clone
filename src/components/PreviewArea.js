@@ -197,7 +197,7 @@ export default function PreviewArea() {
           })}
         </div>
       </div>
-      <div className="h-1/4">
+      <div className="h-1/4 overflow-y-auto">
         <div className="w-full flex items-center justify-between py-2 border-b border-gray-400">
           <div className="text-black font-bold py-2 px-4 ">Preview area</div>
           <button
