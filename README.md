@@ -18,11 +18,14 @@ Scratch Clone is a project aimed at replicating the fun and interactive motion f
 - Move Sprite in X and Y direction
 - Rotate Sprite in both clockwise and anticlockwise directions
 - Change Sprite poition and send it anywhere on the screen
+- Looks can be used to change the apperance of the sprite
+- Use control and events to manipulate all the motions and looks
 - Replay the motion
 
 ## NOTE
 
 - At a time only one motion script can be created and run.
+- Before running, run event should be used before all the other motions, looks and control.
 - The motion script can be created by dragging and dropping the motion blocks from the left panel to the mid panel.
 - All the motions are implemented one by one(delay of 0.8sec) on the active Sprite.
 - To change the active Sprite, choose the desired sprite from the dropdown in the preview area.
@@ -50,9 +53,11 @@ Scratch Clone is a project aimed at replicating the fun and interactive motion f
 
 ## Screenshots
 
-![Screenshot 1](output1.jpg)
+![Screenshot 1](output1.png)
 
-https://github.com/user-attachments/assets/5f95f7ef-97a5-43f0-928d-6c81fa68d182
+https://github.com/user-attachments/assets/19d9735b-4671-4051-ba72-7fb503377138
+
+
 
 ## Deployed Link
 
